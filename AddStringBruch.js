@@ -1,6 +1,3 @@
-//let in1 = "15 14/16"
-//let in2 = "110 13/18"
-
 const in1 = process.argv[2]
 const in2 = process.argv[3]
 
