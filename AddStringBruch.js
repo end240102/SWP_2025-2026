@@ -3,20 +3,49 @@ const in2 = process.argv[3]
 
 function StringToNumber(string)// ganzeZahl, Zaehler, Nenner
 {
-    ganzeZahl = string.split(" ")
-    bruch = ganzeZahl[1].split("/")
-
+    if(string.length > 1)
+    {
+        ganzeZahl = string.split(" ")
+        bruch = ganzeZahl[1].split("/")
+    }
+    else
+    {
+        ganzeZahl = string[0]
+        bruch = [0, 0]
+    }
+    
     let output = [Number(ganzeZahl[0]), Number(bruch[0]), Number(bruch[1])]
 
     return output
 }
 
-function AddBruch(bruch1, bruch2)
+function AddBruch(bruch1, bruch2)//adds 2 Brüche and kürzes
 {
-    gemNenner = bruch1[2] * bruch2[2]
+    if(bruch1[2] != 0 && bruch2[2] != 0)
+    {
+        gemNenner = bruch1[2] * bruch2[2]
+    }
+    else if(bruch1[2] == 0 && bruch2[2] != 0)
+    {
+        gemNenner = bruch2[2]
+    }
+    else if(bruch2[2] == 0 && bruch1[2] != 0)
+    {
+        gemNenner = bruch1[2]
+    }
     
-    zaehler1 = bruch1[1] * (gemNenner / bruch1[2])
-    zaehler2 = bruch2[1] * (gemNenner / bruch2[2])
+    let zaehler1 = 0
+    if(bruch1[2] != 0)
+    {
+       zaehler1 = bruch1[1] * (gemNenner / bruch1[2])
+    }
+
+    let zaehler2 = 0
+    if(bruch2[2] != 0)
+    {
+        zaehler2 = bruch2[1] * (gemNenner / bruch2[2])
+    }
+    
     
     let zaehler = zaehler1 + zaehler2
     
@@ -53,7 +82,7 @@ function AddBruch(bruch1, bruch2)
         zaehler = zaehler / mostDivider
         gemNenner = gemNenner / mostDivider
     }
-    
+   
     output = `${ganzeZahl} ${zaehler}/${gemNenner}`
     return output
 }
