@@ -3,7 +3,7 @@ const in2 = process.argv[3]
 
 function StringToNumber(string)// ganzeZahl, Zaehler, Nenner
 {
-    if(string.length > 1)
+    if(string.length > 4 && string.includes("/"))
     {
         ganzeZahl = string.split(" ")
         bruch = ganzeZahl[1].split("/")
@@ -82,7 +82,7 @@ function AddBruch(bruch1, bruch2)//adds 2 Brüche and kürzes
         zaehler = zaehler / mostDivider
         gemNenner = gemNenner / mostDivider
     }
-   
+
     output = `${ganzeZahl} ${zaehler}/${gemNenner}`
     return output
 }
