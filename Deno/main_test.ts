@@ -5,7 +5,6 @@ import { divide } from "./main.ts";
 import { sub } from "./main.ts";
 import { squareroot } from "./main.ts";
 
-
 Deno.test("addTest", () => {
   assertEquals(add(2, 3), 5);
 });
