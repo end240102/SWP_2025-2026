@@ -1,0 +1,42 @@
+Das hier sind die wichtigsten HTML Tags um Websiten zu strukturieren, zu gestalten und zugänglich zu machen.
+
+
+<!DOCTYPE> – Deklariert den Dokumenttyp.
+
+<html> – Wurzel-Element eines HTML-Dokuments.
+
+<head> – Metadaten-Bereich, enthält z. B. Skripte und Style-Informationen.
+
+<title> – Titeltag, angezeigt im Browser-Tab.
+
+<meta> – Metainformationen wie Zeichencodierung.
+
+<body> – Hauptinhalt der Webseite.
+
+<header> – Kopfbereich einer Seite oder eines Abschnitts.
+
+<nav> – Navigation/Linksammlung.
+
+<main> – Hauptbereich des Inhalts (semantisch wichtig).
+
+<section> – Abschnitt zur logischen Gliederung.
+
+<article> – Inhaltseinheit wie ein Artikel.
+
+<footer> – Fußbereich einer Seite oder eines Abschnitts.
+
+<h1> bis <h6> – Überschriften in absteigender Priorität.
+
+<p> – Absatztext.
+
+<a> – Hyperlink.
+
+<img> – Bild-Element.
+
+<div> – Block-Container für Bereiche ohne semantische Bedeutung.
+
+<span> – Inline-Container für Text ohne semantische Bedeutung.
+
+<ul> und <ol> – ungeordnete bzw. geordnete Listen.
+
+<li> – Listenelemente in Listen.
