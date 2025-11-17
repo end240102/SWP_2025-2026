@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wichtigste HTML-Tags Beispiel</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: sans-serif;
+    }
+
+    header, main, section, article, footer, nav, div, p {
+      border: 1px solid #999;
+      margin-bottom: 15px;
+      padding: 10px;
+    }
+
+    header {
+      border: 2px solid #333;
+      background: #fff;
+    }
+
+    section {
+      border-style: dashed;
+      border-color: #666;
+    }
+
+    p {
+      border-style: dotted;
+      border-color: #bbb;
+      margin: 10px 0;
+      padding: 5px 10px;
+    }
+
+    ul, ol {
+      margin: 10px 0 10px 20px;
+    }
+
+    code {
+      background: #f5f5f5;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Wichtigste HTML-Tags Demonstration</h1>
+    <nav>
+      <ul>
+        <li><a href="#grundstruktur">Grundstruktur</a></li>
+        <li><a href="#layout-elemente">Strukturelle Layout-Elemente</a></li>
+        <li><a href="#text-inhalt">Text- und Inhaltselemente</a></li>
+        <li><a href="#listen">Listenelemente</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="grundstruktur">
+      <article>
+        <h2>Grundstruktur des Dokuments</h2>
+        <p><code>&lt;!DOCTYPE&gt;</code> – Deklariert den Dokumenttyp.</p>
+        <p><code>&lt;html&gt;</code> – Wurzel-Element eines HTML-Dokuments.</p>
+        <p><code>&lt;head&gt;</code> – Metadaten-Bereich, enthält Skripte und Styles.</p>
+        <p><code>&lt;title&gt;</code> – Titeltag, angezeigt im Browser-Tab.</p>
+        <p><code>&lt;meta charset="UTF-8"&gt;</code> – Zeichencodierung des Dokuments.</p>
+        <p><code>&lt;body&gt;</code> – Hauptinhalt der Webseite.</p>
+      </article>
+    </section>
+
+    <section id="layout-elemente">
+      <article>
+        <h2>Strukturelle Layout-Elemente</h2>
+        <header>
+          <h3>Kopfbereich (<code>&lt;header&gt;</code>)</h3>
+        </header>
+        <nav>
+          <p>Navigation oder Linksammlung (<code>&lt;nav&gt;</code>):</p>
+          <ul>
+            <li><a href="#grundstruktur">Grundstruktur</a></li>
+            <li><a href="#layout-elemente">Layout</a></li>
+          </ul>
+        </nav>
+        <p>Hauptbereich (<code>&lt;main&gt;</code>) ist dieser gesamte Abschnitt.</p>
+        <section>
+          <p>Abschnitt zur logischen Gliederung (<code>&lt;section&gt;</code>).</p>
+          <article>
+            <p>Inhaltseinheit wie ein Artikel (<code>&lt;article&gt;</code>).</p>
+          </article>
+        </section>
+        <footer>
+          <p>Fußbereich (<code>&lt;footer&gt;</code>) dieses Abschnitts.</p>
+        </footer>
+      </article>
+    </section>
+
+    <section id="text-inhalt">
+      <article>
+        <h2>Text- und Inhaltselemente</h2>
+        <h1>Überschrift H1</h1>
+        <h2>Überschrift H2</h2>
+        <h3>Überschrift H3</h3>
+        <h4>Überschrift H4</h4>
+        <h5>Überschrift H5</h5>
+        <h6>Überschrift H6</h6>
+
+        <p>Dies ist ein Absatz (<code>&lt;p&gt;</code>) mit einem <a href="https://example.com">Hyperlink</a> (<code>&lt;a&gt;</code>).</p>
+
+        <p>Hier folgt ein Bild (<code>&lt;img&gt;</code>):</p>
+        <img src="https://via.placeholder.com/150" alt="Platzhalterbild" />
+
+        <div>
+          <p>Dieser Text ist in einem Block-Container (<code>&lt;div&gt;</code>).</p>
+          <span>Inline-Container (<code>&lt;span&gt;</code>) verwendet für hervorgehobenen Text.</span>
+        </div>
+      </article>
+    </section>
+
+    <section id="listen">
+      <article>
+        <h2>Listenelemente</h2>
+        <p>Ungeordnete Liste (<code>&lt;ul&gt;</code>):</p>
+        <ul>
+          <li>Listenpunkt 1</li>
+          <li>Listenpunkt 2</li>
+          <li>Listenpunkt 3</li>
+        </ul>
+
+        <p>Geordnete Liste (<code>&lt;ol&gt;</code>):</p>
+        <ol>
+          <li>Erster Punkt</li>
+          <li>Zweiter Punkt</li>
+          <li>Dritter Punkt</li>
+        </ol>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
