@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <h1>Hausübung</h1>
+        <p>Start und Stop Button für Uhr. Benötigt ist addEventListener</p>
+        <section>
+            <h2>Uhrzeit:</h2>
+            <div id="time" class="mine theirs active"></div>
+        </section>
+        <section id="2"><button id="start">start</button></section>
+        <section id="1"><button id="stop">stop</button></section>
+    </main>
+    <script>
+        const timeDiv = document.getElementById("time");
+        let intervalId = null;
+        let isRunning = false;
+
+        function updateTime() {
+            const now = new Date();
+            timeDiv.textContent = now.toLocaleTimeString();
+        }
+
+        function startClock() {
+            if (!isRunning) {
+                intervalId = setInterval(updateTime, 100);
+                isRunning = true;
+            }
+        }
+
+        function stopClock() {
+            if (isRunning) {
+                clearInterval(intervalId);
+                isRunning = false;
+            }
+        }
+
+        const startButton = document.getElementById("start");
+        const stopButton = document.getElementById("stop");
+
+        startButton.addEventListener("click", () => {
+            console.log(new Date(), "Start geklickt");
+            startClock();
+        });
+
+        stopButton.addEventListener("click", () => {
+            console.log(new Date(), "Stop geklickt");
+            stopClock();
+        });
+        updateTime();
+    </script>
+</body>
+</html>
