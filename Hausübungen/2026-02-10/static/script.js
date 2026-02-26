@@ -1,142 +1,98 @@
-const startInput = document.getElementById("start");
-const endInput = document.getElementById("end");
-const stepInput = document.getElementById("step");
-const tableBody = document.getElementById("table-body");
-const calculateBtn = document.getElementById("calculate");
-const canvas = document.getElementById("chart");
-const ctx = canvas.getContext("2d");
-
-const colors = ["#007acc", "#e74c3c", "#2ecc71", "#9b59b6"];
-const labels = ["f(x)", "g(x)", "h(x)", "i(x)"];
-const funcs = [f, g, h, i];
-
-// ===== Funktionen =====
-function f(x) { return x * x; }
-function g(x) { return x * x / 4; }
-function h(x) { return x * x - 4; }
-function i(x) { return x * x / 4 - 4; }
-
-// ===== Button =====
-calculateBtn.addEventListener("click", calculate);
-
-// ===== Hauptfunktion =====
-function calculate() {
-    let start = parseFloat(startInput.value);
-    let end = parseFloat(endInput.value);
-    let step = parseFloat(stepInput.value);
-
-    if (isNaN(start) || isNaN(end) || isNaN(step) || step <= 0) {
-        alert("Bitte gültige Werte eingeben (Step > 0).");
-        return;
-    }
-
-    // Falls Start > Ende → tauschen
-    if (start > end) [start, end] = [end, start];
-
-    tableBody.innerHTML = "";
-
-    for (let x = start; x <= end + 1e-9; x += step) {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${x.toFixed(2)}</td>
-            <td>${f(x).toFixed(2)}</td>
-            <td>${g(x).toFixed(2)}</td>
-            <td>${h(x).toFixed(2)}</td>
-            <td>${i(x).toFixed(2)}</td>
-        `;
-        tableBody.appendChild(row);
-    }
-
-    drawChart(start, end, step);
-}
-
-// ===== Diagramm =====
-function drawChart(start, end, step) {
-    const padding = 50;
-
-    // Canvas scharf machen
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = 600 * dpr;
-    canvas.height = 400 * dpr;
-    canvas.style.width = "600px";
-    canvas.style.height = "400px";
-    ctx.scale(dpr, dpr);
-
-    const width = 600;
-    const height = 400;
-
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, width, height);
-
-    let minY = Infinity, maxY = -Infinity;
-    for (let x = start; x <= end; x += step) {
-        funcs.forEach(fn => {
-            const y = fn(x);
-            minY = Math.min(minY, y);
-            maxY = Math.max(maxY, y);
-        });
-    }
-
-    const xRange = end - start || 1;
-    const yRange = maxY - minY || 1;
-
-    const toX = x => padding + ((x - start) / xRange) * (width - 2 * padding);
-    const toY = y => height - padding - ((y - minY) / yRange) * (height - 2 * padding);
-
-    // Gitter
-    ctx.strokeStyle = "#eee";
-    for (let i = 0; i <= 10; i++) {
-        const x = padding + i / 10 * (width - 2 * padding);
-        const y = padding + i / 10 * (height - 2 * padding);
-        ctx.beginPath(); ctx.moveTo(x, padding); ctx.lineTo(x, height - padding); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(padding, y); ctx.lineTo(width - padding, y); ctx.stroke();
-    }
-
-    // Achsen nur wenn 0 sichtbar
-    ctx.strokeStyle = "#333";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    if (start <= 0 && end >= 0) {
-        ctx.moveTo(toX(0), padding);
-        ctx.lineTo(toX(0), height - padding);
-    }
-    if (minY <= 0 && maxY >= 0) {
-        ctx.moveTo(padding, toY(0));
-        ctx.lineTo(width - padding, toY(0));
-    }
-    ctx.stroke();
-
-    // Kurven
-    funcs.forEach((fn, idx) => {
-        ctx.strokeStyle = colors[idx];
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('calculate').addEventListener('click', function() {
+        const start = parseFloat(document.getElementById('start').value) || 0;
+        const end = parseFloat(document.getElementById('end').value) || 10;
+        const step = parseFloat(document.getElementById('step').value) || 1;
+        
+        const tbody = document.getElementById('table-body');
+        const canvas = document.getElementById('chart');
+        const ctx = canvas.getContext('2d');
+        
+        // Tabelle und Canvas leeren
+        tbody.innerHTML = '';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        let values = [];
+        
+        // Werte berechnen und Tabelle füllen
+        for (let x = start; x <= end; x += step) {
+            const fx = x * x;                    // f(x) = x²
+            const gx = Math.sin(x);              // g(x) = sin(x)
+            const hx = fx + gx;                  // h(x) = f(x) + g(x)
+            const ix = Math.cos(x);              // i(x) = cos(x)
+            
+            // Tabelle
+            const row = tbody.insertRow();
+            row.insertCell(0).textContent = x.toFixed(2);
+            row.insertCell(1).textContent = fx.toFixed(2);
+            row.insertCell(2).textContent = gx.toFixed(2);
+            row.insertCell(3).textContent = hx.toFixed(2);
+            row.insertCell(4).textContent = ix.toFixed(2);
+            
+            values.push({x, fx, gx, hx, ix});
+        }
+        
+        // Grafik zeichnen
+        drawChart(ctx, values, start, end);
+    });
+    
+    function drawChart(ctx, values, start, end) {
+        const width = 600;
+        const height = 400;
+        const padding = 50;
+        const scaleX = (width - 2 * padding) / (end - start);
+        const scaleY = 100; // Skalierung für Y-Achse
+        
+        // Achsen
+        ctx.strokeStyle = '#333';
         ctx.lineWidth = 2;
         ctx.beginPath();
-
-        let first = true;
-        for (let x = start; x <= end + 1e-9; x += step) {
-            const cx = toX(x);
-            const cy = toY(fn(x));
-            if (first) {
-                ctx.moveTo(cx, cy);
-                first = false;
-            } else {
-                ctx.lineTo(cx, cy);
-            }
-        }
+        ctx.moveTo(padding, padding);
+        ctx.lineTo(padding, height - padding);
+        ctx.lineTo(width - padding, height - padding);
         ctx.stroke();
-    });
-
-    // Legende
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(width - 130, padding - 10, 120, labels.length * 22 + 10);
-    ctx.strokeStyle = "#ccc";
-    ctx.strokeRect(width - 130, padding - 10, 120, labels.length * 22 + 10);
-
-    labels.forEach((label, i) => {
-        ctx.fillStyle = colors[i];
-        ctx.fillRect(width - 120, padding + i * 22, 14, 14);
-        ctx.fillStyle = "#333";
-        ctx.fillText(label, width - 95, padding + i * 22 + 12);
-    });
-}
+        
+        // Beschriftungen
+        ctx.fillStyle = '#333';
+        ctx.font = '14px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('x', width - padding + 20, height - padding + 20);
+        ctx.textAlign = 'right';
+        ctx.fillText('f(x), g(x)', padding - 10, padding - 10);
+        
+        // f(x) = x² (blau)
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        values.forEach((v, i) => {
+            const px = padding + (v.x - start) * scaleX;
+            const py = height - padding - (v.fx / scaleY);
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+        
+        // g(x) = sin(x) (rot)
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        values.forEach((v, i) => {
+            const px = padding + (v.x - start) * scaleX;
+            const py = height - padding - ((v.gx + 2) * 20); // Offset für Sichtbarkeit
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+        
+        // Legende
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(width - 120, 30, 15, 15);
+        ctx.fillStyle = '#333';
+        ctx.fillText('f(x) = x²', width - 100, 42);
+        
+        ctx.fillStyle = 'red';
+        ctx.fillRect(width - 120, 55, 15, 15);
+        ctx.fillStyle = '#333';
+        ctx.fillText('g(x) = sin(x)', width - 100, 67);
+    }
+});
