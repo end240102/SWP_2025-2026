@@ -2,6 +2,7 @@
 import ms from "ms";
 
 interface EssenEintrag {
+    id: number;
     name: string;
     essen: string;
     zeitstempel: number;
@@ -28,9 +29,18 @@ async function ladeEssen() {
                 <td>${eintrag.name}</td>
                 <td>${eintrag.essen}</td>
                 <td>vor ${formatierteZeit(eintrag.zeitstempel)}</td>
+                <td><button class="loeschen-btn" data-id="${eintrag.id}">Löschen</button></td>
             `;
             tabelle.appendChild(zeile);
         }
+
+        document.querySelectorAll(".loeschen-btn").forEach((btn) => {
+            btn.addEventListener("click", async () => {
+                const id = Number((btn as HTMLButtonElement).dataset.id);
+                await fetch(`/essen/${id}`, { method: "DELETE" });
+                ladeEssen();
+            });
+        });
     } catch (error) {
         console.error("Fehler beim Laden:", error);
         tabelle.innerHTML = `<tr><td colspan="3">Fehler: ${error}</td></tr>`;

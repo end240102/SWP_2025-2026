@@ -57,11 +57,17 @@ app.use("/*", serveStatic({ root: "./static" }));
 
 app.get("/essen", (c: Context) => {
     const rows = db.prepare(`
-    SELECT name, essen, zeitstempel
+    SELECT id, name, essen, zeitstempel
     FROM dummy;
   `).all();
 
     return c.json(rows);
+});
+
+app.delete("/essen/:id", (c: Context) => {
+    const id = c.req.param("id");
+    db.prepare("DELETE FROM dummy WHERE id = ?").run(id);
+    return c.json({ success: true });
 });
 
 Deno.serve(app.fetch);
